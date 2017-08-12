@@ -6,4 +6,4 @@ Using ARKit to make calculate distance of real world objects
 
 Demo:
 
-[![ARKit Measure](https://i.vimeocdn.com/video/649654826_640.webp)](https://vimeo.com/229362375 "ARKit Measure - Click to Watch!")
+[![ARKit Measure](https://user-images.githubusercontent.com/6329656/29237538-b27b281c-7f52-11e7-9dae-1eaba65bafa3.png)](https://vimeo.com/229362375 "ARKit Measure - Click to Watch!")
