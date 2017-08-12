@@ -53,6 +53,7 @@ final class Line {
     
     fileprivate var startNode: SCNNode!
     fileprivate var endNode: SCNNode!
+    fileprivate var text: SCNText!
     fileprivate var textNode: SCNNode!
     fileprivate var lineNode: SCNNode?
     
@@ -77,14 +78,23 @@ final class Line {
         endNode = SCNNode(geometry: dot)
         endNode.scale = SCNVector3(1/500.0, 1/500.0, 1/500.0)
         
-        let text = SCNText(string: "--", extrusionDepth: 0.1)
+        text = SCNText(string: "", extrusionDepth: 0.1)
         text.font = .systemFont(ofSize: 5)
         text.firstMaterial?.diffuse.contents = color
         text.alignmentMode  = kCAAlignmentCenter
         text.truncationMode = kCATruncationMiddle
         text.firstMaterial?.isDoubleSided = true
-        textNode = SCNNode(geometry: text)
-        textNode.scale = SCNVector3(1/500.0, 1/500.0, 1/500.0)
+        
+        let textWrapperNode = SCNNode(geometry: text)
+        textWrapperNode.eulerAngles = SCNVector3Make(0, .pi, 0)
+        textWrapperNode.scale = SCNVector3(1/500.0, 1/500.0, 1/500.0)
+        
+        textNode = SCNNode()
+        textNode.addChildNode(textWrapperNode)
+        let constraint = SCNLookAtConstraint(target: sceneView.pointOfView)
+        constraint.isGimbalLockEnabled = true
+        textNode.constraints = [constraint]
+        sceneView.scene.rootNode.addChildNode(textNode)
     }
     
     func update(to vector: SCNVector3) {
@@ -92,13 +102,8 @@ final class Line {
         lineNode = startVector.line(to: vector, color: color)
         sceneView.scene.rootNode.addChildNode(lineNode!)
         
-        let text = textNode.geometry as! SCNText
         text.string = distance(to: vector)
-        textNode.position = SCNVector3((startVector.x+vector.x)/2.0, (startVector.y+vector.y)/2.0+0.002, (startVector.z+vector.z)/2.0)
-
-        if textNode.parent == nil {
-            sceneView?.scene.rootNode.addChildNode(textNode)
-        }
+        textNode.position = SCNVector3((startVector.x+vector.x)/2.0, (startVector.y+vector.y)/2.0, (startVector.z+vector.z)/2.0)
         
         endNode.position = vector
         if endNode.parent == nil {
