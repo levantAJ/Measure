@@ -20,7 +20,7 @@ final class ViewController: UIViewController {
     @IBOutlet weak var resetButton: UIButton!
     
     fileprivate lazy var session = ARSession()
-    fileprivate lazy var sessionConfiguration = ARWorldTrackingSessionConfiguration()
+    fileprivate lazy var sessionConfiguration = ARWorldTrackingConfiguration()
     fileprivate lazy var isMeasuring = false;
     fileprivate lazy var vectorZero = SCNVector3()
     fileprivate lazy var startValue = SCNVector3()
